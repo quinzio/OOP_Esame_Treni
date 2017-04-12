@@ -1,5 +1,6 @@
 package orari;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +10,7 @@ public class Treno {
 	private int giorno;
 	private int mese;
 	private int anno;
-	private List<Passaggio> passaggi;
+	private List<Passaggio> passaggi = new ArrayList<>();
 	private int numPassaggi;
 
 	public Treno(String codice, int giorno, int mese, int anno) {
@@ -40,7 +41,8 @@ public class Treno {
 		return anno;
 	}
 
-	public Passaggio registraPassaggio(String string, int i, int j) throws StazioneNonValida {
+	public Passaggio registraPassaggio(String string, int i, int j)
+			throws StazioneNonValida {
 		boolean found = false;
 		Percorso res = null;
 		for (Percorso p : Orari.percorsi) {
@@ -59,9 +61,10 @@ public class Treno {
 		Fermata fRes = null;
 
 		for (Fermata f : fermatequi) {
-			if (f.getStazione().equals(string))
+			if (f.getStazione().equals(string)) {
 				found = true;
-			fRes = f;
+				fRes = f;
+			}
 		}
 		if (!found)
 			throw new StazioneNonValida();
@@ -87,7 +90,8 @@ public class Treno {
 	}
 
 	public int ritardoMassimo() {
-		Optional<Integer> maxrit = passaggi.stream().map(Passaggio::ritardo).max(Comparator.naturalOrder());
+		Optional<Integer> maxrit = passaggi.stream().map(Passaggio::ritardo)
+				.max(Comparator.naturalOrder());
 		return maxrit.isPresent() ? maxrit.get() : 0;
 
 	}

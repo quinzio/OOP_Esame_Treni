@@ -7,10 +7,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /*
-R1 - Definizione Percorsi
-Il sistema agisce tramite la classe Orari. 
-La prima fase dell'uso consiste nel definire i percorsi dei treni.
-*/
+ R1 - Definizione Percorsi
+ Il sistema agisce tramite la classe Orari. 
+ La prima fase dell'uso consiste nel definire i percorsi dei treni.
+ */
 
 public class Percorso {
 
@@ -26,7 +26,7 @@ public class Percorso {
 
 	/*
 	 * Un percorso per default non è straordinario
-	 **/
+	 */
 	private boolean straordinario = false;
 
 	/*
@@ -82,7 +82,9 @@ public class Percorso {
 	 */
 	public Fermata aggiungiFermata(String nomeStazione, int ore, int minuti) {
 		numFermate++;
-		return new Fermata(nomeStazione, ore, minuti);
+		Fermata f = new Fermata(nomeStazione, ore, minuti);
+		fermate.add(f);
+		return f;
 	}
 
 	public int getNumFermate() {
@@ -96,7 +98,8 @@ public class Percorso {
 	 */
 	public List getFermate() {
 		List<Fermata> fermate_byh = new ArrayList<>(fermate);
-		fermate_byh.sort(Comparator.comparing(Fermata::getOre).thenComparing(Fermata::getMinuti));
+		fermate_byh.sort(Comparator.comparing(Fermata::getOre).thenComparing(
+				Fermata::getMinuti));
 		return fermate_byh;
 	}
 
@@ -109,10 +112,22 @@ public class Percorso {
 
 	public int ritardoMedio() {
 		Double ritardo = null;
-		ritardo =  treniSuPercorso.stream().map(Treno::ritardoFinale)
+		ritardo = treniSuPercorso.stream().map(Treno::ritardoFinale)
 				.collect(Collectors.averagingInt(Integer::new));
 		Integer intrit = ritardo.intValue();
 		return intrit;
+	}
+
+	public List getTreni() {
+		treniSuPercorso.sort(Comparator
+				.comparing(Treno::getAnno, Comparator.reverseOrder())
+				.thenComparing(
+						Comparator.comparing(Treno::getMese,
+								Comparator.reverseOrder()))
+				.thenComparing(
+						Comparator.comparing(Treno::getGiorno,
+								Comparator.reverseOrder())));
+		return treniSuPercorso;
 	}
 
 }

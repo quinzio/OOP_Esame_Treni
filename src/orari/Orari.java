@@ -8,6 +8,10 @@ public class Orari {
 	static Collection<Percorso> percorsi = new ArrayList<>();
 	Collection<Treno> treni = new ArrayList<>();
 
+	public Orari() {
+		percorsi.clear();
+	}
+
 	/*
 	 * 
 	 * Il metodo creaPercorso() che accetta come parametro il codice (es.
